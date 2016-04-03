@@ -8,7 +8,7 @@ import calendar
 app = Flask(__name__)
 app.debug = True
 bcrypt = Bcrypt(app)
-app.secret_key = 'pickles'
+app.secret_key = ''
 
 db = amm_db.AmmDB('')
 
