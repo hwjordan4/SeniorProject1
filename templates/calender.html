@@ -1,0 +1,185 @@
+
+
+{% extends "template.html" %}
+{% block header %}
+{{ super() }}
+{% endblock header %}
+{% block content %}
+
+<!--Import CSS for home and profile page-->
+<link id="size-stylesheet" rel="stylesheet" href="../static/css/home-profile-style.css">
+
+{% include "partials/navbar_partial.html" %}
+<div class="row">
+{% include "partials/sidebar_partial.html" %}
+
+    <div class="col l10 offset-l2 main-content">
+    <p class="flow-text"><h2 align="center">{{ month }} {{ date.year }}</h2></p>
+
+        <table class="bordered centered striped">
+        <th>S</th><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>S</th>
+
+
+            <tr>
+                {% set count = 1 %}
+                {% for x in range(0, 7) %}
+                    {% if x >= start %}
+                        {% if count in keys %}
+                            {% if count == current %}
+                                    <td class="flow-text current">
+                                        {{ count }}
+                                        <a class="modal-trigger" href="#activityModal">
+                                            <h6>{{ activity.get(count) }}</h6></a>
+                                    </td>
+                            {% else %}
+                                    <td class="highlight flow-text">
+                                    {{ count }}
+                                    <a class="modal-trigger" href="#activityModal">
+                                        <h6>{{ activity.get(count) }}</h6></a>
+                                    </td>
+                            {% endif %}
+                        {% else %}
+                            {% if count == current %}
+                                <td class="flow-text current">
+                                        {{ count }}
+                                        <br>
+                                        <br>
+                                        <br>
+                                </td>
+                            {% else %}
+                                <td class="highlight flow-text">
+                                        {{ count }}
+                                        <br>
+                                        <br>
+                                        <br>
+                                </td>
+                            {% endif %}
+
+                        {% endif %}
+                        {% set count = count + 1 %}
+                    {% else %}
+                        <td><br><br><br>
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% set count = 7 - start + 1 %}
+            {% for week in range(0, 5) %}
+            <tr>
+                {% for x in range(0, 7)  %}
+
+                    {% if count > end_date %}
+                           <td><br><br><br> </td>
+                    {% else %}
+                        {% if count in keys %}
+                            {% if count == current %}
+                                    <td class="flow-text current">
+                                        {{ count }}
+                                        <a class="modal-trigger" href="#activityModal">
+                                            <h6>{{ activity.get(count) }}</h6></a>
+                                    </td>
+                            {% else %}
+                                    <td class="highlight flow-text">
+                                    {{ count }}
+                                    <a class="modal-trigger" href="#activityModal">
+                                        <h6>{{ activity.get(count) }}</h6></a>
+                                    </td>
+                            {% endif %}
+                        {% else %}
+                            {% if count == current %}
+                                <td class="flow-text current">
+                                        {{ count }}
+                                        <br>
+                                        <br>
+                                        <br>
+                                </td>
+                            {% else %}
+                                <td class="highlight flow-text">
+                                        {{ count }}
+                                        <br>
+                                        <br>
+                                        <br>
+                                </td>
+                            {% endif %}
+
+                        {% endif %}
+
+                        {% set count = count + 1 %}
+                    {% endif %}
+                {% endfor %}
+                {% set count = count + 7%}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+
+</div>
+<div id="activityModal" class="modal bottom-sheet">
+
+    <div class="modal-header" id="modal-title">
+      <h4 class="modal-title" id="activityModalLabel"> THIS IS THE MODAL TITLE </h4>
+            <div class="modal-body" id="modal-body">
+              <p>{# activity details #}</p>
+              <p>{# activity details #}
+              THIS IS THE MODAL BODY</p> {# insert partial div from search results page about activity??? #}
+              <p>{# activity details #}</p>
+              <p>{# activity details #}</p>
+            </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Ok, Got It!</a>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal-trigger').leanModal();
+
+    });
+
+       $('#activityModal').on('show.bs.modal', function (event) {
+            var link = $(event.relatedTarget); // Button that triggered the modal
+            var info = link.data(); // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this);
+            modal.find('.modal-title').text('New info  .text' + info);
+            modal.find('.modal-body').val('THIS IS SOME INFORMATION PASSED INTO MODAL .val')
+            modal.find('.modal-title').innerHTML("New info passed into modal - inner html")
+});
+
+
+    $('#activityModal').on('.modal-trigger', function (event) {
+            var link = $(event.relatedTarget); // Button that triggered the modal
+            var info = link.data(); // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this);
+            modal.find('.modal-title').text('New info  .text' + info);
+            modal.find('.modal-body').val('THIS IS SOME INFORMATION PASSED INTO MODAL .val')
+            modal.find('.modal-title').innerHTML("New info passed into modal - inner html")
+});
+
+    function adjustStyle(width) {
+        width = parseInt(width);
+        if (width < 600) {
+            $(".sidebar").css("position", "relative");
+
+
+
+        } else {
+
+        }
+
+    }
+    $(function () {
+        adjustStyle($(this).width());
+        $(window).resize(function () {
+            adjustStyle($(this).width());
+        });
+    });
+</script>
+{% endblock content %}
